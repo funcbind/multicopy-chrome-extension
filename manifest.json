@@ -2,5 +2,19 @@
 	"manifest_version": 3,
 	"name": "Multicopy-chrome-extension",
 	"version": "1.0.0",
-	"action": { "default_popup": "index.html" }
+	"host_permissions": ["https://api.rollbar.com/"],
+	"action": { "default_popup": "src/popup/index.html" },
+	"options_page": "src/options/index.html",
+	"permissions": ["storage", "unlimitedStorage", "tabs"],
+	"content_scripts": [
+		{
+			"matches": ["*://*.gitlab.com/*"],
+			"js": ["src/contentScripts/main.jsx"],
+			"run_at": "document_end"
+		}
+	],
+	"background": {
+		"service_worker": "src/background/backgroundWorker.js",
+		"type": "module"
+	}
 }
